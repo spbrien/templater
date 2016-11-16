@@ -11,7 +11,7 @@ from jinja2 import Template
 # Utility Functions
 # -------------------------------
 
-def template_factory(data, template_path):
+def template_factory(data):
     def create_template(template_path):
         f = open(template_path, 'r')
         template_file = f.read()
