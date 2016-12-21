@@ -5,21 +5,21 @@ import json
 
 import requests
 from requests.auth import HTTPBasicAuth
-from jinja2 import Template
+from jinja2 import FileSystemLoader, Environment
 
 
 # Utility Functions
 # -------------------------------
 
-def template_factory(data):
-    def create_template(template_path):
-        f = open(template_path, 'r')
-        template_file = f.read()
-        f.close()
-        template = Template(template_file)
-        out = template.render(data=data)
-        return out
-    return create_template
+def template_factory(data, template_file):
+    templates_dir = os.path.abspath(os.path.join(template_file, os.pardir))
+
+    # Create template env
+    env = Environment(loader=FileSystemLoader(templates_dir))
+    template = env.get_template(os.path.basename(template_file))
+
+    # Render
+    return template.render(data=data)
 
 
 def open_json(json_file_path):
@@ -29,7 +29,11 @@ def open_json(json_file_path):
 
 def get_json(json_url, params={}, username=None, password=None):
     if username and password:
-        r = requests.get(json_url, params=params, auth=HTTPBasicAuth(username, password))
+        r = requests.get(
+            json_url,
+            params=params,
+            auth=HTTPBasicAuth(username, password)
+        )
         return r.json()
     r = requests.get(json_url, params=params)
     return r.json()
