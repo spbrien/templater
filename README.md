@@ -28,3 +28,12 @@ templater file.json my_jinja2_template.html > out.html
 templater http://my-json-api.com/endpoint my_jinja2_template.html
 templater http://my-json-api.com/endpoint my_jinja2_template.html > out.html
 ```
+
+Template partials and includes (via normal Jinja syntax) are supported.
+Adding functions to your Jinja templates is also supported via a `plugins.py` file in your working directory:
+
+```
+working_directory/
+    plugins.py
+    main_template.html
+```

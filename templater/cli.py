@@ -12,7 +12,7 @@ from templater import get_json, open_json, template_factory
 @click.argument('template_file')
 def main(data, template_file, args=None):
     """Pipe JSON data into Jinja2 templates"""
-    if 'http://' in data:
+    if 'http://' in data or 'https://' in data:
         json_data = get_json(data)
         out = template_factory(json_data, template_file)
     else:
